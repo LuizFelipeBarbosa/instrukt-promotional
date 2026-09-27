@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Instrukt — Turn a video of your machine into a living lab book</title>
+<meta name="description" content="Instrukt watches a video of someone operating your equipment, rebuilds the instrument as a navigable 3D model, and turns the demonstrated workflow into a guided, step-by-step procedure." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%232e6b4f'/><text x='16' y='22' font-size='17' font-family='sans-serif' font-weight='700' fill='white' text-anchor='middle'>I</text></svg>" />
+</head>
+<body>
+
+<!-- ======================= NAV ======================= -->
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">I</span>
+      Instrukt
+    </a>
+    <nav class="nav-links">
+      <a href="#how">How to use it</a>
+      <a href="#demo">Guided mode</a>
+      <a href="#who">Who it's for</a>
+      <a href="#why">Why Instrukt</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="#demo">
+      Try the demo <span class="arrow">→</span>
+    </a>
+  </div>
+</header>
+
+<!-- ======================= HERO ======================= -->
+<section class="hero" id="top">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <span class="eyebrow reveal">Training for specialized equipment</span>
+      <h1 class="h-display reveal" style="--d:.08s">Your lab book,<br /><em>alive.</em></h1>
+      <p class="lede reveal" style="--d:.16s">
+        Record your best operator using a machine once. Instrukt turns that
+        video into a guided, step-by-step 3D walkthrough your whole team can
+        follow at the equipment itself — so every run is consistent, and every
+        run is reproducible.
+      </p>
+      <div class="hero-ctas reveal" style="--d:.24s">
+        <a class="btn btn-primary" href="#how">See how it works <span class="arrow">↓</span></a>
+        <a class="btn btn-ghost" href="#demo">Try the guided demo</a>
+      </div>
+      <div class="hero-stats reveal" style="--d:.32s">
+        <div class="stat">
+          <div class="stat-num"><span data-count="1">0</span></div>
+          <div class="stat-label">recording per machine is enough</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num"><span data-count="0">0</span></div>
+          <div class="stat-label">manuals to write or maintain</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num"><span data-count="100">0</span><sup>%</sup></div>
+          <div class="stat-label">of trainees follow the same steps</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scanner reveal" style="--d:.2s">
+      <div class="scanner-frame">
+        <img class="machine-underlay" src="machine.png" alt="A plasma etching machine" />
+        <canvas id="asciiCanvas" width="560" height="400" aria-label="The machine being scanned into an ASCII overlay"></canvas>
+        <div class="scanner-corners"><span></span><span></span><span></span><span></span></div>
+        <div class="scanner-caption" id="scanCaption">MACHINE: PLASMA ETCHER</div>
+      </div>
+      <div class="scanner-hud">
+        <div class="hud-left"><span class="hud-dot"></span><span id="hudStatus">SCANNING GEOMETRY</span></div>
+        <span id="hudPct">000%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= MARQUEE ======================= -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track" id="marqueeTrack">
+    <span>Record once</span><span>Train everyone</span>
+    <span>Same steps every run</span><span>Guided at the machine</span>
+    <span>No manuals to write</span><span>Works with any equipment</span>
+    <span>Video in · guide out</span>
+  </div>
+</div>
+
+<!-- ======================= HOW IT WORKS ======================= -->
+<section class="section" id="how">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="eyebrow reveal">How to use it</span>
+      <h2 class="h-section reveal" style="--d:.08s">From one recording<br />to a trained team.</h2>
+      <p class="lede reveal" style="--d:.16s">
+        No manuals to write, no cameras to rig, no specialists to schedule.
+        If you can film it, your team can learn it.
+      </p>
+    </div>
+
+    <div class="steps-grid">
+      <article class="step-card reveal">
+        <div class="step-top"><span class="step-num">01</span><span class="step-time">with any phone</span></div>
+        <h3>Record your expert</h3>
+        <p>Film the person who knows the machine best, narrating as they work — seconds to hours. No special equipment, no staging, no script.</p>
+        <div class="step-visual vis-record">
+          <div class="rec-frame">
+            <span class="rec-dot"></span>
+            <span class="rec-label">REC 00:00:42</span>
+            <div class="rec-sweep"></div>
+            <div class="rec-machine"></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="step-card reveal" style="--d:.1s">
+        <div class="step-top"><span class="step-num">02</span><span class="step-time">one upload</span></div>
+        <h3>Drop in the video</h3>
+        <p>Upload the footage and tell Instrukt which parts move — the door, the sample holder, the latch. That's the entire setup.</p>
+        <div class="step-visual vis-upload">
+          <div class="up-tray">
+            <div class="up-arrow"><svg viewBox="0 0 24 24"><path d="M12 19 V6 M6 12 L12 6 L18 12"/></svg></div>
+            <span class="up-name">plasma_etcher.mp4</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="step-card reveal" style="--d:.2s">
+        <div class="step-top"><span class="step-num">03</span><span class="step-time">share a link</span></div>
+        <h3>Get the machine, rebuilt in 3D</h3>
+        <p>Instrukt hands back an interactive model of your instrument with its moving parts, plus the full procedure as a step-by-step walkthrough — ready to share with the team.</p>
+        <div class="step-visual vis-build">
+          <svg viewBox="0 0 190 104">
+            <circle class="pt" style="--pd:0s" cx="30" cy="24" r="2.4"/>
+            <circle class="pt" style="--pd:.15s" cx="64" cy="14" r="2.4"/>
+            <circle class="pt" style="--pd:.3s" cx="150" cy="22" r="2.4"/>
+            <circle class="pt" style="--pd:.1s" cx="172" cy="52" r="2.4"/>
+            <circle class="pt" style="--pd:.4s" cx="160" cy="86" r="2.4"/>
+            <circle class="pt" style="--pd:.2s" cx="26" cy="70" r="2.4"/>
+            <circle class="pt" style="--pd:.35s" cx="52" cy="92" r="2.4"/>
+            <circle class="pt" style="--pd:.25s" cx="98" cy="90" r="2.4"/>
+            <path class="wire" d="M60 34 L130 34 L130 78 L60 78 Z M60 34 L76 20 L146 20 L130 34 M146 20 L146 64 L130 78 M76 20 L76 66 L60 78 M76 66 L146 64" />
+          </svg>
+        </div>
+      </article>
+
+      <article class="step-card reveal" style="--d:.3s">
+        <div class="step-top"><span class="step-num">04</span><span class="step-time">at the machine</span></div>
+        <h3>Train with confidence</h3>
+        <p>Trainees open the walkthrough right at the equipment: the camera moves to each action, parts glow, callouts point — and every step checks off as they go.</p>
+        <div class="step-visual vis-check">
+          <div class="row"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"/></svg></span>Lid lowered</div>
+          <div class="row"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"/></svg></span>Latch engaged</div>
+          <div class="row"><span class="box"><svg viewBox="0 0 12 12"><path d="M2 6.5 L5 9 L10 3"/></svg></span>Rotor balanced</div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= DEMO ======================= -->
+<section class="section section-demo" id="demo">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="eyebrow reveal">Guided mode</span>
+      <h2 class="h-section reveal" style="--d:.08s">This is what a run looks like.</h2>
+      <p class="lede reveal" style="--d:.16s">
+        A live slice of the viewer: drag the model, step through the procedure,
+        tick the checks. Every step knows which part it touches and where the
+        camera should look.
+      </p>
+    </div>
+
+    <div class="demo-shell reveal" style="--d:.12s">
+      <div class="demo-titlebar">
+        <div class="dots"><i></i><i></i><i></i></div>
+        <div class="crumbs"><span>Machines</span><span>›</span><span>Benchtop microcentrifuge</span><span>›</span><b>Running a sample</b></div>
+        <div class="demo-tabs" role="tablist">
+          <button class="active" id="tabGuide" role="tab">Guide</button>
+          <button id="tabDetails" role="tab">Details</button>
+        </div>
+      </div>
+      <div class="demo-body">
+        <div class="demo-viewport" id="viewport">
+          <canvas id="cloudCanvas"></canvas>
+          <span class="viewport-tag" id="calloutTag">LID</span>
+          <span class="viewport-hint">Drag to rotate</span>
+        </div>
+        <div class="demo-panel">
+          <div id="guidePane">
+            <div class="demo-guide" id="guideContent">
+              <div class="demo-stepmeta">
+                <span class="step-k" id="stepK">Step 1 of 5</span>
+                <span class="step-pct" id="stepPct">0% done</span>
+              </div>
+              <h3 id="stepTitle">Open the lid</h3>
+              <p class="step-desc" id="stepDesc">Lift the lid by its front edge until it stays open on the hinge.</p>
+              <div class="demo-progress"><i id="progressBar" style="width:0%"></i></div>
+              <div class="demo-checks" id="checkList"></div>
+              <div class="demo-nav">
+                <button class="btn btn-ghost" id="btnBack">Back</button>
+                <button class="btn btn-primary" id="btnNext">Next step <span class="arrow">→</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="demo-details" id="detailsPane">
+            <div class="demo-stepmeta">
+              <span class="step-k">Procedure details</span>
+              <span class="step-pct">5 steps · ~6 min</span>
+            </div>
+            <div id="detailsList"></div>
+            <div class="claim-foot" style="margin-top:18px">
+              <span>Provenance on every field</span><b>validate · pass</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= WHY ======================= -->
+<section class="section" id="why">
+  <div class="section-inner">
+    <span class="eyebrow reveal">Why Instrukt</span>
+    <p class="why-statement reveal" style="--d:.1s; margin-top:20px">
+      Lab knowledge shouldn't live in one person's head — or in a binder
+      nobody opens. Instrukt makes every procedure
+      <span class="hl">consistent and reproducible</span> for the whole team.
+    </p>
+
+    <div class="why-grid">
+      <div class="why-item reveal">
+        <span class="why-num">/01</span>
+        <h3>Interns learn the science, not the guessing</h3>
+        <p>New hands follow a guided walkthrough at the machine itself — which part, which motion, which check — instead of shadowing a senior researcher for weeks.</p>
+      </div>
+      <div class="why-item reveal" style="--d:.12s">
+        <span class="why-num">/02</span>
+        <h3>Same steps, every run, every person</h3>
+        <p>The procedure is captured once from the person who knows it best, then replayed identically for everyone. No drift, no folklore, no skipped latch checks.</p>
+      </div>
+      <div class="why-item reveal" style="--d:.24s">
+        <span class="why-num">/03</span>
+        <h3>More time analyzing, less time asking</h3>
+        <p>When the "which button comes next" questions disappear, attention goes back to where it belongs: the experiment and the results.</p>
+      </div>
+    </div>
+
+    <div class="quote-block reveal">
+      <span class="q-mark">The goal</span>
+      <blockquote>
+        A living lab book — one that watches how the expert does it, and walks
+        everyone else through it, one action at a time.
+      </blockquote>
+      <div class="q-who">INSTRUKT · VIDEO → 3D MACHINE PROCEDURE</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= WHO IT'S FOR ======================= -->
+<section class="section" id="who" style="padding-top:0">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="eyebrow reveal">Who it's for</span>
+      <h2 class="h-section reveal" style="--d:.08s">Built for teams who run<br />specialized equipment.</h2>
+      <p class="lede reveal" style="--d:.16s">
+        Anywhere expertise is scarce and mistakes are expensive, Instrukt turns
+        your best operator into a trainer who never sleeps.
+      </p>
+    </div>
+    <div class="who-grid">
+      <div class="who-card reveal">
+        <span class="who-num">01</span>
+        <h3>Lab &amp; facility managers</h3>
+        <p>Onboard interns and new hires onto complex instruments without tying up senior researchers — procedures stay consistent long after the expert moves on.</p>
+      </div>
+      <div class="who-card reveal" style="--d:.1s">
+        <span class="who-num">02</span>
+        <h3>Manufacturing &amp; operations</h3>
+        <p>Standardize how every shift runs the same machine. Capture the workflow once, replay it identically across sites, lines, and teams.</p>
+      </div>
+      <div class="who-card reveal" style="--d:.2s">
+        <span class="who-num">03</span>
+        <h3>Safety &amp; compliance leads</h3>
+        <p>Every step is followed in order, every check is ticked off. Walkthroughs double as auditable training records for regulated environments.</p>
+      </div>
+      <div class="who-card reveal" style="--d:.3s">
+        <span class="who-num">04</span>
+        <h3>Equipment makers &amp; field service</h3>
+        <p>Ship every unit with a living guide instead of a PDF. Customers and technicians learn your machine the way your engineers use it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= CTA ======================= -->
+<section class="section" style="padding-top:0">
+  <div class="section-inner">
+    <div class="cta reveal">
+      <div class="cta-inner">
+        <span class="eyebrow">One video is enough</span>
+        <h2>Train your team on day one.</h2>
+        <p>One video in — a navigable 3D model and a step-by-step guide out. Your next procedure is one recording away.</p>
+        <div class="cta-ctas">
+          <a class="btn btn-primary" href="#how">Start your first recording <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href="#demo">Replay the demo</a>
+        </div>
+        <div class="cta-mono">One recording · every machine · <b>everyone trained the same way</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="footer">
+  <div class="footer-inner">
+    <a class="brand" href="#top"><span class="brand-mark">I</span>Instrukt</a>
+    <span>Turns a video of a machine into a guided, step-by-step 3D walkthrough.</span>
+    <div class="footer-links">
+      <a href="#how">How to use it</a>
+      <a href="#demo">Guided mode</a>
+      <a href="#who">Who it's for</a>
+      <a href="#why">Why Instrukt</a>
+    </div>
+  </div>
+</footer>
+
+<script src="machine-field.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
